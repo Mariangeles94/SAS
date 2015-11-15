@@ -1,0 +1,16 @@
+#contenedor{
+    width: 1365px;
+    margin: 0 auto;
+    background-color:  #D2ECD1;
+    padding: 20px;
+   padding-left: 120px;
+}
+
+#lista li{
+    list-style: decimal;
+   
+}
+#lista li a{
+    text-decoration: none;
+    color:red;
+}
