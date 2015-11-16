@@ -5,7 +5,9 @@
     padding: 20px;
    padding-left: 120px;
 }
-
+body{
+  margin:0 auto;
+}
 #lista li{
     list-style: decimal;
    

@@ -13,17 +13,21 @@ if (isset($_POST["enviar"])) {
     $usuario = new Usuario($nss, $dni, $dia, $mes, $anio);
     $sesion->setUser($usuario);
     $user = $sesion->getUser();
+    
     //Capturo el NSS del usuario introducido
     $nombre = $user->getNss();
     
+    //Capturo el archivo generado 
     $files = $_FILES['imagen']['name'];
     $upload = new Multiupload();
-    $directorio="Usuarios/";
-    $subir = $upload->subirArchivos($files,$nombre,$directorio);
+    $directorio=$usuario->getRuta();
+    $mensajeSubido = $upload->subirArchivos($files,$nombre,$directorio);
+    $upload->setMensaje($mensajeSubido);
     //redirecciono al documento visualizar
     $sesion->sendRedirect("visualizar.php");
-  
+ 
 }
+
 
 
 

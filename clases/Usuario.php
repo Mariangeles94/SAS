@@ -1,14 +1,23 @@
 <?php
 class Usuario {
-    private $nss,$dia,$mes,$anio,$dni;
-    function __construct($nss=null, $dia=null, $mes=null, $anio=null, $dni=null) {
+    private $nss,$dia,$mes,$anio,$dni,$ruta;
+    function __construct($nss=null, $dia=null, $mes=null, $anio=null, $dni=null,$ruta=null) {
         $this->nss = $nss;
         $this->dia = $dia;
         $this->mes = $mes;
         $this->anio = $anio;
         $this->dni = $dni;
+        $this->ruta = "Usuarios/";
     }
-    function getNss() {
+    function getRuta() {
+        return $this->ruta;
+    }
+
+    function setRuta($ruta) {
+        $this->ruta = $ruta;
+    }
+
+        function getNss() {
         return $this->nss;
     }
 

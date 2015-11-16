@@ -1,21 +1,24 @@
 <?php
 
 class Multiupload {
-    
-    public function subirArchivos($files = array(), $name,$directorio) {
+    private $mensaje;
+    function __construct($mensaje=null) {
+        $this->mensaje = "";
+    }
+
+    public function subirArchivos($files = array(), $name, $directorio) {
         $cont=0;
-        //inicializamos un contador para recorrer los archivos
         $i = 0;
+        $mensaje = "";
          if (!is_dir($directorio))
              mkdir($directorio, 0777);
         //si no existe la carpeta files la creamos
-        $carpetaUsuario=$directorio."User_".$name."/";
+        $carpetaUsuario=$directorio.$name."/";
         if (!is_dir($carpetaUsuario))
             mkdir($carpetaUsuario, 0777);
 
-        //recorremos los input files del formulario
         foreach ($files as $file) {
-            //si se está subiendo algún archivo en ese indice
+            //si se sube un archivo que coincida con el indice
             if ($_FILES['imagen']['tmp_name'][$i]) {
                 $nombreArchivo = $name . "_" . $_FILES['imagen']['name'][$i];
                 $trozos[$i] = explode(".", $_FILES["imagen"]["name"][$i]);
@@ -30,26 +33,31 @@ class Multiupload {
                     }
                     //si la extension no es una de las permitidas
                 } else {
-                    echo "la extension no esta permitida";
+                    $mensaje .= "la extension no esta permitida";
                 }
                 //si ese input file no ha sido cargado con un archivo
             } else {
-                echo "sin imagen";
+                 $mensaje .= "sin imagen";
             }
-            echo "<br />";
-            //en cada pasada por el loop incrementamos i para acceder al siguiente archivo
+             $mensaje .= "<br />";
+            //incrementamos la variable i para acceder al siguiente archivo
             $i++;
         }
- 
-        return $cont;
+         $mensaje .= "Se han subido ".$cont." archivos correctamente";
+        
+        return $mensaje;
     }
-    function directorio(){
-        return "Usuarios/";
+    function getMensaje() {
+        return $this->mensaje;
+    }
+
+    function setMensaje($mensaje) {
+        $this->mensaje = $mensaje;
     }
   
 
     private function comprobarExtension($extension) {
-        //aqui podemos añadir las extensiones que deseemos permitir
+        //Añadir las extensiones 
         $extensiones = array("jpg", "png", "gif", "jpeg");
         if (in_array(strtolower($extension), $extensiones)) {
             return true;
@@ -59,7 +67,7 @@ class Multiupload {
     }
     
     private function existe($file, $carpetaUsuario) {
-        //asignamos de nuevo el nombre al archivo
+        //Renombramos si existe ya 
         $archivo = $file[0] . '.' . end($file);
         $i = 0;
         //mientras el archivo exista entramos
