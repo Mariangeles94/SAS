@@ -1,5 +1,4 @@
 <?php
-
 class Multiupload {
     private $mensaje;
     function __construct($mensaje=null) {
@@ -10,9 +9,11 @@ class Multiupload {
         $cont=0;
         $i = 0;
         $mensaje = "";
+        //si no existe la carpeta que contiene a todos los usuarios la creamos
          if (!is_dir($directorio))
              mkdir($directorio, 0777);
-        //si no existe la carpeta files la creamos
+         
+        //si no existe la carpeta del usuario la creamos
         $carpetaUsuario=$directorio.$name."/";
         if (!is_dir($carpetaUsuario))
             mkdir($carpetaUsuario, 0777);
@@ -22,7 +23,6 @@ class Multiupload {
             if ($_FILES['imagen']['tmp_name'][$i]) {
                 $nombreArchivo = $name . "_" . $_FILES['imagen']['name'][$i];
                 $trozos[$i] = explode(".", $_FILES["imagen"]["name"][$i]);
-
                 $extension[$i] = end($trozos[$i]);
 
                 //si la extensión es una de las permitidas
@@ -40,11 +40,9 @@ class Multiupload {
                  $mensaje .= "sin imagen";
             }
              $mensaje .= "<br />";
-            //incrementamos la variable i para acceder al siguiente archivo
             $i++;
         }
          $mensaje .= "Se han subido ".$cont." archivos correctamente";
-        
         return $mensaje;
     }
     function getMensaje() {
@@ -55,7 +53,6 @@ class Multiupload {
         $this->mensaje = $mensaje;
     }
   
-
     private function comprobarExtension($extension) {
         //Añadir las extensiones 
         $extensiones = array("jpg", "png", "gif", "jpeg");
@@ -75,9 +72,6 @@ class Multiupload {
             $i++;
             $archivo = $file[0] . "_" . $i . "." . end($file);
         }
-        //devolvemos el nuevo nombre de la imagen, si es que ha 
-        //entrado alguna vez en el loop, en otro caso devolvemos el que
-        //ya tenia
         return $archivo;
     }
 

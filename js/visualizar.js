@@ -15,3 +15,5 @@ function visualizar(evento){
     var hrefimagen=imagenclick.getAttribute("href");
     var src=imagenver.setAttribute("src",hrefimagen);
 }
+
+
