@@ -21,10 +21,11 @@ if (isset($_POST["enviar"])) {
     $files = $_FILES['imagen']['name'];
     $upload = new Multiupload();
     $directorio=$usuario->getRuta();
-    $mensajeSubido = $upload->subirArchivos($files,$nombre,$directorio);
-    $upload->setMensaje($mensajeSubido);
+    $mensaje = $upload->subirArchivos($files,$nombre,$directorio);
+    
+    
     //redirecciono al documento visualizar
-    $sesion->sendRedirect("visualizar.php");
+    $sesion->sendRedirect("visualizar.php?mensaje=$mensaje");
  
 }
 

@@ -6,7 +6,7 @@ $nombreUsuario = $usuario->getNSS();
 $subir = new Multiupload();
 $ruta = $usuario->getRuta();
 $dniUsuario = $usuario->getDni();
-$mensajeSubido = $subir->getMensaje();
+$mensajeSubido = Request::get("mensaje");
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@ $mensajeSubido = $subir->getMensaje();
                 <h2>Estas son las imagenes del usuario<br/></h2>
                 <h3>NSS: <?php echo $nombreUsuario ?></h3>
                 <h3>DNI: <?php echo $dniUsuario ?></h3>
-                <h3> <?php echo $mensajeSubido ?></h3>
+                <h3>Estado: <?php echo $mensajeSubido; ?></h3>
                 <ul id="lista">
                     <?php
                     Imagenes::verImagen($nombreUsuario, $ruta);

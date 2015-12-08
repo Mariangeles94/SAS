@@ -1,14 +1,12 @@
 <?php
 class Multiupload {
-    private $mensaje;
-    function __construct($mensaje=null) {
-        $this->mensaje = "";
-    }
-
+   
     public function subirArchivos($files = array(), $name, $directorio) {
-        $cont=0;
         $i = 0;
         $mensaje = "";
+        $subidasCorrectamente = 0;
+        $subidasIncorrectamente = 0;
+        
         //si no existe la carpeta que contiene a todos los usuarios la creamos
          if (!is_dir($directorio))
              mkdir($directorio, 0777);
@@ -28,29 +26,27 @@ class Multiupload {
                 //si la extensión es una de las permitidas
                 if ($this->comprobarExtension($extension[$i]) === TRUE) {
                     $_FILES['imagen']['name'][$i] = $this->existe($trozos[$i],$carpetaUsuario);
-                    if (move_uploaded_file($_FILES['imagen']['tmp_name'][$i], $carpetaUsuario . $nombreArchivo)) {
-                      $cont++;
+                    if(move_uploaded_file($_FILES['imagen']['tmp_name'][$i], $carpetaUsuario . $nombreArchivo)){
+                        $subidasCorrectamente++;
+                    }else{
+                        $subidasIncorrectamente++;
                     }
+                      
                     //si la extension no es una de las permitidas
                 } else {
-                    $mensaje .= "la extension no esta permitida";
+                    $mensaje="la extension no esta permitida";
                 }
                 //si ese input file no ha sido cargado con un archivo
             } else {
-                 $mensaje .= "sin imagen";
+                 $mensaje="sin imagen";
             }
-             $mensaje .= "<br />";
+            
             $i++;
         }
-         $mensaje .= "Se han subido ".$cont." archivos correctamente";
+        if($subidasCorrectamente !== 0 || $subidasIncorrectamente !== 0){
+         $mensaje= "Se han subido ".$subidasCorrectamente." archivos correctamente y ".$subidasIncorrectamente." incorrectamente".$mensaje;
+        }
         return $mensaje;
-    }
-    function getMensaje() {
-        return $this->mensaje;
-    }
-
-    function setMensaje($mensaje) {
-        $this->mensaje = $mensaje;
     }
   
     private function comprobarExtension($extension) {
